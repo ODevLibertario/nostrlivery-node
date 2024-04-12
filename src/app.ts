@@ -2,8 +2,11 @@ import express from 'express';
 import {openDb} from "./database";
 import {NostrliveryEventProcessorFactory} from "./processors/NostrliveryEventProcessorFactory";
 import {NostrliveryEvent, NostrliveryEventType} from "./processors/model/NostrliveryEvent";
-import {verifyEvent} from 'nostr-tools'
+import {useWebSocketImplementation, verifyEvent} from 'nostr-tools'
 import {NostrEvent} from "./model/NostrEvent";
+import WebSocket from 'ws';
+
+useWebSocketImplementation(WebSocket)
 
 const app = express();
 app.use(express.json());

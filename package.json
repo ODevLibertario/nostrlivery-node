@@ -16,9 +16,11 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "@types/ws": "^8.5.10",
     "express": "^4.19.2",
     "nostr-tools": "^2.4.0",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "ws": "^8.16.0"
   }
 }
