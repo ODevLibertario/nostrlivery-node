@@ -4,22 +4,33 @@ import {sleep} from "../util/utils";
 import {NostrEvent} from "../model/NostrEvent";
 
 export class RelayService {
-    relay = new Relay('wss://relay.nostr.band')
+    public relayList: Relay[];
+    constructor(relayURLList: string[]) {
+        relayURLList.forEach(relayURL => {
+            if(relayURL) {
+                this.relayList.push(new Relay(relayURL));
+            }
+        })
+    }
     timeoutMs = 5000
 
     async getSingleEvent (filter: Filter): Promise<NostrEvent> {
         let eventToReturn: NostrEvent = undefined
-        await this.relay.connect()
-        this.relay.subscribe(
-            [
-                filter
-            ],
-            {
-                onevent(event) {
-                    eventToReturn = event
-                    this.relay.close()
-                },
-            },
+        Promise.all(
+            this.relayList.map(async relay => {
+                await relay.connect()
+                relay.subscribe(
+                    [
+                        filter
+                    ],
+                    {
+                        onevent(event) {
+                            eventToReturn = event
+                            this.relay.close()
+                        },
+                    },
+                )
+            })
         )
 
         //TODO use a less hacky approach for waiting for a response
