@@ -5,7 +5,17 @@ import {NostrEvent} from "../model/NostrEvent";
 
 export class RelayService {
     public relayList: Relay[];
-    constructor(relayURLList: string[]) {
+    constructor() {
+        if(!process.env['RELAY_URL_LIST']) {
+            throw new Error(`RELAY_URL_LIST not defined`)
+        }
+        this.relayList = []
+
+        const relayURLList = process.env['RELAY_URL_LIST'].split(',').map(url => {
+            return url.trim();
+        })
+
+        console.log(relayURLList);
         relayURLList.forEach(relayURL => {
             if(relayURL) {
                 this.relayList.push(new Relay(relayURL));
