@@ -16,6 +16,12 @@ openDb()
 
 const eventProcessorFactory = new NostrliveryEventProcessorFactory()
 
+
+app.get('/identity', async (req, res) => {
+    res.status(200).send(process.env.NOSTRLIVERY_NODE_NPUB)
+})
+
+
 //TODO how do we stop an attack where some registers millions of fake users
 app.post('/entrypoint', async (req, res) => {
     try {

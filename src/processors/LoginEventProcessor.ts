@@ -1,43 +1,27 @@
 import {NostrliveryEventProcessor} from "./model/NostrliveryEventProcessor";
-import {db} from "../database";
-import {NostrliveryResponse} from "./model/NostrliveryResponse";
 import {RelayService} from "../service/RelayService";
+import {finalizeEvent, nip19} from 'nostr-tools'
+import {NostrEvent} from "../model/NostrEvent";
 
 export class LoginEventProcessor implements NostrliveryEventProcessor {
 
     private relayService = new RelayService()
 
-    async process(npub:string, params:Object): Promise<NostrliveryResponse | null> {
-        const result = await db.get('SELECT npub FROM user WHERE npub = ?', npub)
+    async process(npub:string, params:Object): Promise<NostrEvent | null> {
+        let sk = nip19.decode(process.env.NOSTRLIVERY_NODE_NSEC)
 
-        if (result) {
-            const profileEvent = await this.relayService.getSingleEvent(
-                {
-                    authors: [npub],
-                    kinds: [0],
-                }
-            )
+        const profileEvent = await this.relayService.getSingleEvent(
+            {
+                authors: [npub],
+                kinds: [0],
+            }
+        )
 
-            return new NostrliveryResponse(profileEvent["content"])
-        } else {
-            const profile = validateProfile(params['profile'])
-            await db.run('INSERT INTO user VALUES (?)', npub)
-            await db.run(`INSERT INTO profile_${profile} (npub)
-                          VALUES (?)`, npub)
-        }
-        return new NostrliveryResponse({"message": "success"})
+        return finalizeEvent({
+            kind: 1,
+            created_at: Math.floor(Date.now() / 1000),
+            tags: [],
+            content: JSON.stringify(profileEvent["content"]),
+        }, sk.data as Uint8Array) as NostrEvent
     }
-
-}
-
-function validateProfile(profile: string | undefined) {
-    if(!profile) {
-        throw 'Profile is mandatory'
-    }
-
-    if(profile.toLowerCase() !in ['company']) {
-        throw 'Invalid profile '+ profile
-    }
-
-    return profile
 }
