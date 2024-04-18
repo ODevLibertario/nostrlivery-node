@@ -5,6 +5,9 @@ import {NostrliveryEvent, NostrliveryEventType} from "./processors/model/Nostrli
 import {useWebSocketImplementation, verifyEvent} from 'nostr-tools'
 import {NostrEvent} from "./model/NostrEvent";
 import WebSocket from 'ws';
+import {config} from 'dotenv';
+
+config()
 
 useWebSocketImplementation(WebSocket)
 

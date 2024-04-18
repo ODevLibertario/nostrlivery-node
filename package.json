@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@types/ws": "^8.5.10",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "nostr-tools": "^2.4.0",
     "sqlite": "^5.1.1",
