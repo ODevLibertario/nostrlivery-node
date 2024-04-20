@@ -4,7 +4,9 @@ import {sleep} from "../util/utils";
 import {NostrEvent} from "../model/NostrEvent";
 
 export class RelayService {
-    public relayList: Relay[];
+    public relayList: Relay[]
+    timeoutMs = 5000
+
     constructor() {
         if(!process.env['RELAY_URL_LIST']) {
             throw new Error(`RELAY_URL_LIST not defined`)
@@ -22,7 +24,6 @@ export class RelayService {
             }
         })
     }
-    timeoutMs = 5000
 
     async getSingleEvent (filter: Filter): Promise<NostrEvent> {
         let eventToReturn: NostrEvent = undefined
