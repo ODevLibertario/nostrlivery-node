@@ -1,19 +1,19 @@
-import express from 'express';
-import {openDb} from "./database";
-import {NostrliveryEventProcessorFactory} from "./processors/NostrliveryEventProcessorFactory";
-import {NostrliveryEvent, NostrliveryEventType} from "./processors/model/NostrliveryEvent";
+import express from 'express'
+import {openDb} from "./database"
+import {NostrliveryEventProcessorFactory} from "./processors/NostrliveryEventProcessorFactory"
+import {NostrliveryEvent, NostrliveryEventType} from "./processors/model/NostrliveryEvent"
 import {useWebSocketImplementation, verifyEvent} from 'nostr-tools'
-import {NostrEvent} from "./model/NostrEvent";
-import WebSocket from 'ws';
-import {config} from 'dotenv';
+import {NostrEvent} from "./model/NostrEvent"
+import WebSocket from 'ws'
+import {config} from 'dotenv'
 
 config()
 
 useWebSocketImplementation(WebSocket)
 
-const app = express();
-app.use(express.json());
-const port = 3000;
+const app = express()
+app.use(express.json())
+const port = 3000
 
 openDb()
 
@@ -32,7 +32,7 @@ app.post('/entrypoint', async (req, res) => {
 
         const verifyResult = verifyEvent(event)
 
-        if(!verifyResult) {
+        if (!verifyResult) {
             return res.status(400).json({error: 'Authentication failed'})
         }
 
@@ -52,8 +52,8 @@ app.post('/entrypoint', async (req, res) => {
         return res.status(500).json({error: e.message})
     }
 
-});
+})
 
 app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
+    return console.log(`Express is listening at http://localhost:${port}`)
+})
