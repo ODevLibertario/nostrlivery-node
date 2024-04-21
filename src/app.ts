@@ -40,7 +40,7 @@ app.post('/entrypoint', async (req, res) => {
 
         const nostrliveryEvent = new NostrliveryEvent(
             NostrliveryEventType[jsonNostrliveryEvent['eventType'] as keyof typeof NostrliveryEventType],
-            jsonNostrliveryEvent['params'] as Object
+            jsonNostrliveryEvent['params'] as any
         )
 
         const result = await eventProcessorFactory

@@ -4,9 +4,9 @@ export enum NostrliveryEventType {
 
 export class NostrliveryEvent {
     eventType: NostrliveryEventType;
-    params: Object;
+    params: any;
 
-    constructor(eventType: NostrliveryEventType, params: Object) {
+    constructor(eventType: NostrliveryEventType, params: any) {
         this.eventType = eventType;
         this.params = params;
     }

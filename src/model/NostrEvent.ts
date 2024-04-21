@@ -10,7 +10,7 @@ export class NostrEvent implements NostrToolsEvent{
     tags: string[][];
 
 
-    constructor(object: Object) {
+    constructor(object: any) {
         this.content = object['content'];
         this.created_at = object['created_at'];
         this.id = object['id'];

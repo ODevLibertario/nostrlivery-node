@@ -7,8 +7,8 @@ export class LoginEventProcessor implements NostrliveryEventProcessor {
 
     private relayService = new RelayService()
 
-    async process(npub:string, params:Object): Promise<NostrEvent | null> {
-        let sk = nip19.decode(process.env.NOSTRLIVERY_NODE_NSEC)
+    async process(npub:string, params:any): Promise<NostrEvent | null> {
+        const sk = nip19.decode(process.env.NOSTRLIVERY_NODE_NSEC)
 
         const profileEvent = await this.relayService.getSingleEvent(
             {
