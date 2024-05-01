@@ -5,8 +5,10 @@ The backend of the decentralized delivery app
 ### Required Env vars
 
 - NOSTRLIVERY_NODE_NPUB - Your node's npub, create a dedicated nostr profile for it
-- NOSTRLIVERY_NODE_NPUB - Your node's nsec
+- NOSTRLIVERY_NODE_NSEC - Your node's nsec
 - RELAY_URL_LIST - Comma separated list of relays to connect to, for development we recommend running the local-relay
+
+Copy the ***.env.example*** file as ***.env*** and fill in with your information
 
 ### How to use the local-relay for development
 1. Run the shell script start-local-relay.sh to get the container running
