@@ -1,7 +1,7 @@
 import {NostrliveryEventProcessor} from "./model/NostrliveryEventProcessor"
 import {NostrliveryEventType} from "./model/NostrliveryEvent"
 import {PublishEventProcessor} from "./PublishEventProcessor"
-import {QueryEventProcessor} from "./QueryEventProcessor";
+import {QueryEventProcessor} from "./QueryEventProcessor"
 
 export class NostrliveryEventProcessorFactory {
 
