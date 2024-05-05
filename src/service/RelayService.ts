@@ -5,7 +5,7 @@ import {NostrEvent} from "../model/NostrEvent"
 
 export class RelayService {
     public relayList: Relay[]
-    timeoutMs = 1000
+    timeoutMs = 2000
 
     constructor() {
         if (!process.env['RELAY_URL_LIST']) {
@@ -27,31 +27,28 @@ export class RelayService {
     }
 
     async getSingleEvent(filter: Filter): Promise<NostrEvent> {
-        let eventToReturn: NostrEvent = undefined
-
+        let events = []
         const subscription = this.relayList[0].subscribe(
             [filter],
             {
+
                 onevent(event) {
-                    eventToReturn = event
-                    subscription.close()
+                    events.push(event)
                 },
             },
         )
 
-
-        //TODO use a less hacky approach for waiting for a response
         let waitTime = 0
-        while (!eventToReturn) {
+        while (this.timeoutMs >= waitTime) {
             waitTime += 10
             await sleep(10)
-            if (waitTime >= this.timeoutMs) {
-                console.log("Timed out waiting from relay response")
-                return undefined
-            }
         }
 
-        return eventToReturn
+        if(events.length == 0) {
+            return undefined
+        }
+
+        return events[events.length - 1]
     }
 
     async publish(event: NostrEvent) {
