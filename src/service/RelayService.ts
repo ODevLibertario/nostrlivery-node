@@ -5,7 +5,7 @@ import {NostrEvent} from "../model/NostrEvent"
 
 export class RelayService {
     public relayList: Relay[]
-    timeoutMs = 5000
+    timeoutMs = 1000
 
     constructor() {
         if (!process.env['RELAY_URL_LIST']) {
@@ -46,7 +46,8 @@ export class RelayService {
             waitTime += 10
             await sleep(10)
             if (waitTime >= this.timeoutMs) {
-                throw "Timed out waiting from relay response"
+                console.log("Timed out waiting from relay response")
+                return undefined
             }
         }
 

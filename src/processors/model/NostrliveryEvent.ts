@@ -1,6 +1,6 @@
 export enum NostrliveryEventType {
-    LOGIN,
-    PUBLISH_EVENT
+    PUBLISH_EVENT,
+    QUERY_EVENT
 }
 
 export class NostrliveryEvent {

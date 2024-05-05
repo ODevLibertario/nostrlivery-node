@@ -1,13 +1,13 @@
 import {NostrliveryEventProcessor} from "./model/NostrliveryEventProcessor"
 import {NostrliveryEventType} from "./model/NostrliveryEvent"
-import {LoginEventProcessor} from "./LoginEventProcessor"
 import {PublishEventProcessor} from "./PublishEventProcessor"
+import {QueryEventProcessor} from "./QueryEventProcessor";
 
 export class NostrliveryEventProcessorFactory {
 
     private processors = {
-        [NostrliveryEventType.LOGIN] : new LoginEventProcessor(),
-        [NostrliveryEventType.PUBLISH_EVENT] : new PublishEventProcessor()
+        [NostrliveryEventType.PUBLISH_EVENT] : new PublishEventProcessor(),
+        [NostrliveryEventType.QUERY_EVENT] : new QueryEventProcessor(),
     }
 
     getInstance(eventType: NostrliveryEventType): NostrliveryEventProcessor {
