@@ -48,6 +48,7 @@ export class RelayService {
             return undefined
         }
 
+        subscription.close()
         return events[events.length - 1]
     }
 
