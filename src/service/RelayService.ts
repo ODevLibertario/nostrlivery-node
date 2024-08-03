@@ -83,3 +83,5 @@ export class RelayService {
     }
 
 }
+
+export const relayService = new RelayService();

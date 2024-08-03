@@ -6,11 +6,13 @@ import {nip19, useWebSocketImplementation, verifyEvent} from 'nostr-tools'
 import {NostrEvent} from "./model/NostrEvent"
 import WebSocket from 'ws'
 import {config} from 'dotenv'
-import {RelayService} from "./service/RelayService"
+
 import { schnorr } from '@noble/curves/secp256k1'
 import { bytesToHex } from '@noble/hashes/utils'
 import { sha256 } from '@noble/hashes/sha256'
 import {NostrliveryNodeResponseBody} from "./processors/model/NostrliveryNodeResponseBody"
+import driverRouter from "./routes/driverRoutes"
+import {ProfileService} from "./service/ProfileService"
 
 config()
 
@@ -23,31 +25,25 @@ const port = 3000
 openDb()
 
 const eventProcessorFactory = new NostrliveryEventProcessorFactory()
-const relayService = new RelayService()
+const profileService = new ProfileService()
 const utf8Encoder: TextEncoder = new TextEncoder()
+
+app.use(driverRouter)
 
 app.get('/identity', async (req, res) => {
     res.status(200).send(process.env.NOSTRLIVERY_NODE_NPUB)
 })
 
 app.get('/username/:npub', async (req, res) => {
-    // TODO add a cache here, to keep usernames for 15 minutes
+
     try{
-        const npub = req.params.npub.replace('npub', '')
+        const username = await profileService.getUsername(req.params.npub)
 
-        const profileEvent = await relayService.getSingleEvent({
-            kinds: [0],
-            authors: [npub]
-
-        })
-
-        if(profileEvent) {
-            const response = JSON.parse(profileEvent.content)["name"]
-            return res.status(200).send(wrapResponseBody(response))
+        if(username) {
+            return res.status(200).send(wrapResponseBody(username))
         } else {
             return res.status(404).send()
         }
-
     } catch (e) {
         console.log(e)
         return res.status(500).send()
@@ -55,7 +51,7 @@ app.get('/username/:npub', async (req, res) => {
 
 })
 
-function wrapResponseBody(response: any) {
+export function wrapResponseBody(response: any) {
     const responseHash = sha256(utf8Encoder.encode(response))
     const sig = bytesToHex(schnorr.sign(responseHash, nip19.decode(process.env.NOSTRLIVERY_NODE_NSEC).data as Uint8Array))
     return new NostrliveryNodeResponseBody(response, sig)
