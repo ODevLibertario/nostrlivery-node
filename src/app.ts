@@ -13,6 +13,7 @@ import { sha256 } from '@noble/hashes/sha256'
 import {NostrliveryNodeResponseBody} from "./processors/model/NostrliveryNodeResponseBody"
 import driverRouter from "./routes/driverRoutes"
 import {ProfileService} from "./service/ProfileService"
+import {RelayService} from "./service/RelayService"
 
 config()
 
@@ -23,6 +24,8 @@ app.use(express.json())
 const port = 3000
 
 openDb()
+
+export const relayService = new RelayService()
 
 const eventProcessorFactory = new NostrliveryEventProcessorFactory()
 const profileService = new ProfileService()

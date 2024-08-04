@@ -1,5 +1,5 @@
-import {relayService} from "./RelayService";
-import {removePrefix} from "../util/utils";
+import {removePrefix} from "../util/utils"
+import {relayService} from "../app"
 
 export class ProfileService {
 
@@ -13,7 +13,7 @@ export class ProfileService {
         if(profileEvent) {
             return JSON.parse(profileEvent.content)["name"]
         } else {
-           return null
+            return null
         }
     }
 }

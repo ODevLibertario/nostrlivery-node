@@ -33,14 +33,16 @@ export class RelayService {
     async getEvents(filter: Filter): Promise<NostrEvent[]> {
         const events = await this.collectEventsFromRelay(filter)
 
-        const sortedEvents =  events.sort((a: NostrEvent, b: NostrEvent) => b.created_at - a.created_at)
-
         const latestItemsMap = new Map<string, NostrEvent>()
 
-        for (const sortedEvent of sortedEvents) {
-            const key = `${sortedEvent.tags}-${sortedEvent.kind}-${sortedEvent.npub}`
-            if (!latestItemsMap.has(key)) {
-                latestItemsMap.set(key, sortedEvent)
+        if (events) {
+            const sortedEvents =  events.sort((a: NostrEvent, b: NostrEvent) => b.created_at - a.created_at)
+
+            for (const sortedEvent of sortedEvents) {
+                const key = `${sortedEvent.tags}-${sortedEvent.kind}-${sortedEvent.npub}`
+                if (!latestItemsMap.has(key)) {
+                    latestItemsMap.set(key, sortedEvent)
+                }
             }
         }
 
@@ -83,5 +85,3 @@ export class RelayService {
     }
 
 }
-
-export const relayService = new RelayService();

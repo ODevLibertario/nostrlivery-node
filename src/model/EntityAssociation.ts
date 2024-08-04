@@ -1,9 +1,11 @@
 export class EntityAssociation {
     entityName: string
+    entityNpub: string
     status: EntityAssociationStatus
 
-    constructor(entityName: string, status: EntityAssociationStatus) {
-        this.entityName = entityName;
+    constructor(entityName: string, entityNpub: string, status: EntityAssociationStatus) {
+        this.entityName = entityName
+        this.entityNpub = entityNpub
         this.status = status
     }
 }
