@@ -3,7 +3,6 @@ import {RelayService} from "../service/RelayService"
 import {finalizeEvent, nip19} from 'nostr-tools'
 import {NostrEvent} from "../model/NostrEvent"
 
-//TODO should we allow frontend direct connection to the relay?
 export class PublishEventProcessor implements NostrliveryEventProcessor {
 
     private relayService = new RelayService()

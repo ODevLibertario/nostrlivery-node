@@ -4,7 +4,6 @@ import {finalizeEvent, nip19} from 'nostr-tools'
 import {NostrEvent} from "../model/NostrEvent"
 import {Filter} from "nostr-tools/lib/types/filter"
 
-//TODO should we allow frontend direct connection to the relay?
 export class QueryEventsProcessor implements NostrliveryEventProcessor {
 
     private relayService = new RelayService()
