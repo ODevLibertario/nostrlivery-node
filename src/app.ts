@@ -2,7 +2,7 @@ import express from 'express'
 import {openDb} from "./database"
 import {NostrliveryEventProcessorFactory} from "./processors/NostrliveryEventProcessorFactory"
 import {NostrliveryEvent, NostrliveryEventType} from "./processors/model/NostrliveryEvent"
-import {nip19, useWebSocketImplementation, verifyEvent} from 'nostr-tools'
+import {nip19, verifyEvent} from 'nostr-tools'
 import {NostrEvent} from "./model/NostrEvent"
 import WebSocket from 'ws'
 import {config} from 'dotenv'
@@ -17,7 +17,7 @@ import {RelayService} from "./service/RelayService"
 
 config()
 
-useWebSocketImplementation(WebSocket)
+;(globalThis as any).WebSocket = WebSocket
 
 const app = express()
 app.use(express.json())
@@ -35,6 +35,18 @@ app.use(driverRouter)
 
 app.get('/identity', async (req, res) => {
     res.status(200).send(process.env.NOSTRLIVERY_NODE_NPUB)
+})
+
+app.get('/health', async (req, res) => {
+    res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() })
+})
+
+app.get('/', async (req, res) => {
+    res.status(200).json({ 
+        message: 'Nostrlivery Node Server', 
+        version: '1.0.0',
+        endpoints: ['/identity', '/health', '/entrypoint', '/username/:npub', '/driver/company-associations/:npub']
+    })
 })
 
 app.get('/username/:npub', async (req, res) => {

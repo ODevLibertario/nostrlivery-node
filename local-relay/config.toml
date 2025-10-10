@@ -35,7 +35,7 @@ description = "A newly created nostr-rs-relay.\n\nCustomize this with your own i
 # Directory for SQLite files.  Defaults to the current directory.  Can
 # also be specified (and overriden) with the "--db dirname" command
 # line option.
-#data_directory = "."
+data_directory = "db"
 
 # Use an in-memory database instead of 'nostr.db'.
 # Requires sqlite engine.
@@ -151,9 +151,9 @@ reject_future_seconds = 1800
 #]
 
 # Event kind allowlist. Events other than these kinds will be discarded.
-#event_kind_allowlist = [
-#    0, 1, 2, 3, 7, 40, 41, 42, 43, 44, 30023,
-#]
+event_kind_allowlist = [
+    0, 1, 2, 3, 7, 40, 41, 42, 43, 44, 30023, 20000,
+]
 
 # Rejects imprecise requests (kind only and author only etc)
 # This is a temperary measure to improve the adoption of outbox model

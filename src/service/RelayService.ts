@@ -23,7 +23,12 @@ export class RelayService {
             }
         })
 
-        this.relayList[0].connect()
+        // Connect to relay with error handling
+        if (this.relayList.length > 0) {
+            this.relayList[0].connect().catch(error => {
+                console.warn('Failed to connect to relay:', error.message)
+            })
+        }
     }
 
     async getSingleEvent(filter: Filter): Promise<NostrEvent> {

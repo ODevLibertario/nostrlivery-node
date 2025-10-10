@@ -18,10 +18,11 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "@noble/secp256k1": "^3.0.0",
     "@types/ws": "^8.5.10",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "nostr-tools": "^2.4.0",
+    "nostr-tools": "^2.16.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "ws": "^8.16.0"
